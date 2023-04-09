@@ -136,12 +136,12 @@ configureCompose() {
     apiurl="${apiurl:-http://localhost:42069}"
     echo "API_URL=$apiurl" >> $INSTALL_REPO/${GIT_NAME}/.local.frontend.env
 
-    # rename docker-compose.example.yml to docker-compose.yml
+    # copy docker-compose.example.yml to docker-compose.yml
     if [ -f "$INSTALL_REPO/${GIT_NAME}/docker-compose.yml" ]; then
         rm $INSTALL_REPO/${GIT_NAME}/docker-compose.yml
     fi
 
-    mv $INSTALL_REPO/${GIT_NAME}/docker-compose.example.yml $INSTALL_REPO/${GIT_NAME}/docker-compose.yml
+    cp $INSTALL_REPO/${GIT_NAME}/docker-compose.example.yml $INSTALL_REPO/${GIT_NAME}/docker-compose.yml
 }
 
 postInstall() {
