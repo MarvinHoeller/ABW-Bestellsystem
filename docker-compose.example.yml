@@ -5,7 +5,7 @@ services:
     restart: always
     build: ./frontend/
     env_file:
-      - local.frontend.env
+      - .local.frontend.env
     ports:
       - '127.0.0.1:6969:80'
     networks:
@@ -16,7 +16,7 @@ services:
     restart: always
     build: ./backend/
     env_file:
-      - local.backend.env
+      - .local.backend.env
     ports:
       - "127.0.0.1:42069:42069"
     networks:
