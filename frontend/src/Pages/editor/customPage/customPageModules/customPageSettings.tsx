@@ -35,6 +35,8 @@ export function CustomPageSettings({
     usingEmails: false,
     visible: true,
     isBreadSite: false,
+    emailhost: '',
+    emailport: 465,
   });
 
   const navigate = useNavigate();
@@ -120,6 +122,8 @@ export function CustomPageSettings({
       usingEmails: false,
       visible: true,
       isBreadSite: false,
+      emailhost: '',
+      emailport: 465,
     };
 
     setLocalSettings(
@@ -228,8 +232,9 @@ export function CustomPageSettings({
       <h5>Automatische Löschzeit</h5>
       <Row>
         <Form onSubmit={changeSettings}>
-          <Col className="mt-2  mb-1">
+          <Col className="mb-2">
             <InputGroup className="manage">
+              <InputGroup.Text>Lösch-Uhrzeit</InputGroup.Text>
               <FormControl
                 placeholder="Löschzeit der Bestellungen"
                 aria-label="Löschzeit der Bestellungen"
@@ -305,8 +310,9 @@ export function CustomPageSettings({
           <h5>Emailempfänger</h5>
           <Row>
             <Form key={siteID + '-email'} onSubmit={changeSettings}>
-              <Col className="mt-2 mb-4">
+              <Col className="mb-4">
                 <InputGroup className="manage">
+                  <InputGroup.Text>Emails</InputGroup.Text>
                   <FormControl
                     placeholder="Email-Adressen, getrennt durch Kommas"
                     aria-label="Email-Adressen, getrennt durch Kommas"
@@ -328,6 +334,51 @@ export function CustomPageSettings({
               </Col>
             </Form>
           </Row>
+          <h5>Email Provider</h5>
+          <Form key={siteID + '-provider'} onSubmit={changeSettings}>
+            <Row className="mb-4">
+              <Col>
+                <InputGroup className="manage">
+                  <InputGroup.Text>Provider</InputGroup.Text>
+                  <FormControl
+                    placeholder="Email Provider (z.B. smtp.ionos.de)"
+                    aria-label="Email Provider"
+                    type="text"
+                    name="emailhost"
+                    value={localSettings.emailhost}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setLocalSettings({
+                        ...localSettings,
+                        emailhost: e.target.value
+                      })
+                    }}
+                  />
+                </InputGroup>
+              </Col>
+              <Col>
+                <InputGroup className="manage">
+                  <InputGroup.Text>Port</InputGroup.Text>
+                  <FormControl
+                    placeholder="Email Provider Port (z.B. 465)"
+                    aria-label="Email Provider Port"
+                    type="number"
+                    required={localSettings.usingEmails ? true : null}
+                    name="emailport"
+                    value={localSettings.emailport}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setLocalSettings({
+                        ...localSettings,
+                        emailport: Number(e.target.value)
+                      })
+                    }}
+                  />
+                  <Button variant="primary" type="submit">
+                    Refresh
+                  </Button>
+                </InputGroup>
+              </Col>
+            </Row>
+          </Form>
         </>
       ) : (
         <></>

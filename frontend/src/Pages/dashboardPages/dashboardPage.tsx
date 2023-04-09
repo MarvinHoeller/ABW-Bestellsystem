@@ -103,7 +103,7 @@ function DashboardPage() {
 
     return (
       <Fade appear in key={item._id}>
-        <Card style={{ width: '19rem' }}>
+        <Card className="card_span" style={{ width: '19rem' }}>
           <div className="center-img">
             <Card.Img
               variant="top"

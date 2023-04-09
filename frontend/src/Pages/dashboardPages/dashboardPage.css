@@ -4,7 +4,7 @@
    justify-content: space-between;
    padding: 25px;
 }
-.card span {
+.card_span {
    display: block;
    margin-top: 6px;
    font-weight: 700;

@@ -1,7 +1,6 @@
 import { Card, Container } from 'react-bootstrap';
 import Footer from '../../modules/footer/Footer';
 import Menu from '../../modules/menu/Menu';
-import './privacyInfoPage.css';
 
 const PrivacyPage = (props: any) => {
   return (

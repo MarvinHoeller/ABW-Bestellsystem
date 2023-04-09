@@ -12,7 +12,7 @@ import { formatToCurrent, generatePDF, getUserRank } from './adminTools';
 import mongoose from 'mongoose';
 import { adminRouteLogger } from '../../../logger-init';
 import PDFModel, { IpdfSchema } from '../../models/pdfModel';
-import SiteSettingsModel from '../../models/siteSettingsModel';
+import SiteSettingsModel, { ISiteSettingsSchema } from '../../models/siteSettingsModel';
 import UserModel, { IUserSchema } from '../../models/userModel';
 import UserSettingsModel, {
   IUserSettings,
@@ -72,8 +72,7 @@ function getRandomUserWithWeight(users: IrunnerSchema[]) {
   }
 
   adminRouteLogger.debug(
-    `New Runner is ${users[users.length - 1].forename} ${
-      users[users.length - 1].surname
+    `New Runner is ${users[users.length - 1].forename} ${users[users.length - 1].surname
     }`
   );
   return users[users.length - 1];
@@ -326,7 +325,7 @@ router.get(
               res: 'Error while updating user settings',
             });
           }
-        );
+          );
 
         adminRouteLogger.debug(
           'sending new random runner to client with status 200'
@@ -411,7 +410,7 @@ router.get(
           res: 'Error while getting pdfdata!',
         });
       }
-    );
+      );
   }
 );
 
@@ -493,33 +492,33 @@ router.put(
         { new: false }).then((doc: any) => {
           adminRouteLogger.debug(`user ${req.body.userID} accepted!`);
         }).catch(
-        (UserModelError: CallbackError) => {
-          adminRouteLogger.error('Error while accepting user!', {
-            stack: UserModelError,
-          });
-          return res.status(500).jsonp({
-            access: false,
-            error: 'Error while accepting user!',
-            res: 'Error while accepting user!',
-          });
-        }
-      );
+          (UserModelError: CallbackError) => {
+            adminRouteLogger.error('Error while accepting user!', {
+              stack: UserModelError,
+            });
+            return res.status(500).jsonp({
+              access: false,
+              error: 'Error while accepting user!',
+              res: 'Error while accepting user!',
+            });
+          }
+        );
     } else {
       UserModel.deleteOne(
         { _id: req.body.userID }).then((doc: any) => {
           adminRouteLogger.debug(`user ${req.body.userID} deleted!`);
         }).catch(
-        (UserModelError: CallbackError) => {
-          adminRouteLogger.error('Error while deleting user!', {
-            stack: UserModelError,
-          });
-          return res.status(500).jsonp({
-            access: false,
-            error: 'Error while deleting user!',
-            res: 'Error while deleting user!',
-          });
-        }
-      );
+          (UserModelError: CallbackError) => {
+            adminRouteLogger.error('Error while deleting user!', {
+              stack: UserModelError,
+            });
+            return res.status(500).jsonp({
+              access: false,
+              error: 'Error while deleting user!',
+              res: 'Error while deleting user!',
+            });
+          }
+        );
     }
 
     res.status(200).jsonp({ access: true, res: req.body.accept });
@@ -536,20 +535,20 @@ router.put(
     PERMS.VALIDATE,
   ],
   async (req: Request, res: Response) => {
-    const user: IUserSchema = 
-    <IUserSchema>await UserModel.findOne({_id: req.body.updateID})
-    .catch((UserModelError: CallbackError) => {
-      if (UserModelError) {
-        adminRouteLogger.error('Error while finding user!', {
-          stack: UserModelError,
+    const user: IUserSchema =
+      <IUserSchema>await UserModel.findOne({ _id: req.body.updateID })
+        .catch((UserModelError: CallbackError) => {
+          if (UserModelError) {
+            adminRouteLogger.error('Error while finding user!', {
+              stack: UserModelError,
+            });
+            return res.status(500).jsonp({
+              access: false,
+              error: 'Error while finding user!',
+              res: 'Error while finding user!',
+            });
+          }
         });
-        return res.status(500).jsonp({
-          access: false,
-          error: 'Error while finding user!',
-          res: 'Error while finding user!',
-        });
-      }
-    });
 
     if (!user) {
       adminRouteLogger.error('UserID not found');
@@ -570,17 +569,17 @@ router.put(
           res: 'Password updated',
         });
       }).catch(
-      (UserModelError: CallbackError) => {
-        adminRouteLogger.error('Error while updating user!', {
-          stack: UserModelError,
-        });
-        return res.status(500).jsonp({
-          access: false,
-          error: 'Error while updating user!',
-          res: 'Error while updating user!',
-        });
-      }
-    );
+        (UserModelError: CallbackError) => {
+          adminRouteLogger.error('Error while updating user!', {
+            stack: UserModelError,
+          });
+          return res.status(500).jsonp({
+            access: false,
+            error: 'Error while updating user!',
+            res: 'Error while updating user!',
+          });
+        }
+      );
   }
 );
 
@@ -626,10 +625,25 @@ router.post(
 
     const pdf = await generatePDF(user.rank, req.headers.siteid as string | undefined);
 
-    //TODO: custom SMTP-Server in Editor
+
+    // get list of receivers from database
+    //TODO: check which site is send (currenty site [0])
+    const receivers: ISiteSettingsSchema | null = (
+      await SiteSettingsModel.findById(req.headers.siteid).select(['emails', 'emailhost', 'emailport'])
+    );
+
+    if (!receivers?.emails || receivers.emails.length === 0) {
+      adminRouteLogger.error(`No receivers found!`);
+      return res.status(400).jsonp({
+        access: true,
+        error: `No receivers found! Please notifiy your administrator.`,
+        res: `No receivers found`,
+      });
+    }
+
     const transporter = nodemailer.createTransport({
-      host: 'smtp.ionos.de', // hostname
-      port: 465,
+      host: receivers.emailhost, // hostname
+      port: receivers.emailport, // port for secure SMTP
       secure: true,
       auth: {
         user: req.body.email,
@@ -640,70 +654,55 @@ router.post(
       },
     });
 
-    // get list of receivers from database
-    //TODO: check which site is send (currenty site [0])
-    const receivers = (
-      await SiteSettingsModel.findById(req.headers.siteid).select(['emails'])
-    )?.emails;
-
-    if (!receivers || receivers.length === 0) {
-      adminRouteLogger.error(`No receivers found!`);
-      return res.status(400).jsonp({
-        access: true,
-        error: `No receivers found! Please notifiy your administrator.`,
-        res: `No receivers found`,
-      });
-    }
-
     transporter.sendMail({
-        from: `${user.forename} ${user.surname} <${req.body.email}>`, // sender address
-        to: [...receivers, req.body.email],
-        subject: `Vorbestellung - ABW ${user.rank}`, // Subject line
-        html: `<p>
+      from: `${user.forename} ${user.surname} <${req.body.email}>`, // sender address
+      to: [...receivers.emails, req.body.email],
+      subject: `Vorbestellung - ABW ${user.rank}`, // Subject line
+      html: `<p>
 					Sehr geehrte Damen und Herren,<br>
 					anbei finden Sie die Vorbestellungen für heute, den ${new Date().toLocaleDateString(
-            'de-DE',
-            {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            }
-          )}<br>
+        'de-DE',
+        {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }
+      )}<br>
 					<br>
 					Mit freundlichen Grüßen<br>
 					<br>
 					${user.forename} ${user.surname}, ${user.rank}
 					</p>
 				`, // html body
-        attachments: [
-          {
-            filename: `bestellung.pdf`,
-            content: pdf,
-            encoding: 'base64',
-          },
-        ],
-  }).then((info) => {
-    UserSettingsModel.updateOne(
-      { rank: user.rank },
-      { $addToSet: { ordered: req.headers.siteid } },
-      { upsert: true })
-      .then((mongores) => {
-        adminRouteLogger.debug(`Message sent: ${info.messageId}`);
-        return res.status(200).jsonp({
-          access: true,
-          res: `Message sent: ${info.messageId}`,
-        });
-      }).catch((UserSettingsModelError: CallbackError) => {
-        adminRouteLogger.error('Error while updating user!', {
-          stack: UserSettingsModelError,
-        });
-        return res.status(500).jsonp({
-          access: false,
-          error: 'Error while updating user!',
-          res: 'Error while updating user!',
-        });
-      })
-  }).catch((err) => {
+      attachments: [
+        {
+          filename: `bestellung.pdf`,
+          content: pdf,
+          encoding: 'base64',
+        },
+      ],
+    }).then((info) => {
+      UserSettingsModel.updateOne(
+        { rank: user.rank },
+        { $addToSet: { ordered: req.headers.siteid } },
+        { upsert: true })
+        .then((mongores) => {
+          adminRouteLogger.debug(`Message sent: ${info.messageId}`);
+          return res.status(200).jsonp({
+            access: true,
+            res: `Message sent: ${info.messageId}`,
+          });
+        }).catch((UserSettingsModelError: CallbackError) => {
+          adminRouteLogger.error('Error while updating user!', {
+            stack: UserSettingsModelError,
+          });
+          return res.status(500).jsonp({
+            access: false,
+            error: 'Error while updating user!',
+            res: 'Error while updating user!',
+          });
+        })
+    }).catch((err) => {
       adminRouteLogger.error('Error while sending email!', {
         stack: err,
       })

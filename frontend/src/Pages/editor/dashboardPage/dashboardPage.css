@@ -15,11 +15,6 @@
    margin-bottom: 1.5rem;
    padding: 30px;
 }
-.card span {
-   display: block;
-   margin-top: 6px;
-   font-weight: 700;
-}
 
 .dashboard button {
    width: 100%;

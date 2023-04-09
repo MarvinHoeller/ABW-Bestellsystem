@@ -143,18 +143,19 @@ export interface IOrderPopupData {
 }
 
 export interface ISiteSettingsSchema {
-  _id: string;
-  length?: number;
-  autoDeleteTime: string;
-  autoDelete: boolean;
-  emails: Array<string>;
-  menuAdditions?: Array<{
-    _id: string;
-    name: string;
-    price: number;
-  }>;
-  usingEmails: boolean;
-  isBreadSite: boolean;
-  sitename: string;
-  visible: boolean;
+	_id: string;
+	length?: number;
+	autoDeleteTime: string;
+	autoDelete: boolean;
+	emails: Array<string>;
+	menuAdditions?: Array<{
+		name: string;
+		price: number;
+	}>;
+	usingEmails: boolean;
+	emailhost: string;
+	emailport: number;
+	sitename: string;
+	visible: boolean;
+	isBreadSite: boolean;
 }

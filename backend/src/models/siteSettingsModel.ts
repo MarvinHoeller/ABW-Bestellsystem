@@ -15,6 +15,8 @@ export interface ISiteSettingsSchema {
 		price: number;
 	}>;
 	usingEmails: boolean;
+	emailhost: string;
+	emailport: number;
 	sitename: string;
 	visible: boolean;
 	isBreadSite: boolean;
@@ -51,6 +53,12 @@ const SiteSettingsSchema = new mongoose.Schema<ISiteSettingsSchema>({
 			price: { type: Number },
 		},
 	],
+	emailhost: {
+		type: String,
+	},
+	emailport: {
+		type: Number,
+	}
 });
 
 export default mongoose.model<ISiteSettingsSchema>("sitesetting", SiteSettingsSchema);
