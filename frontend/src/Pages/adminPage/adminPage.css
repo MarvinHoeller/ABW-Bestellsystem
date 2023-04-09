@@ -1,0 +1,97 @@
+.userAccord {
+  color: black;
+}
+
+.settingscard {
+  padding: 4%;
+}
+
+.pdfselection {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
+
+.settingscard h5 {
+  vertical-align: middle;
+}
+
+.document-frame object {
+  width: 100%;
+  height: 100%;
+  border: 1.3px solid black;
+}
+.document-frame {
+  overflow-y: hidden;
+  min-height: 30vh;
+  resize: both;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonmax {
+  width: 100%;
+}
+
+.isnew svg {
+  margin: 0 5px 0 5px;
+}
+#xcircle {
+  margin-right: 20px;
+}
+
+#xcircle:hover,
+#checkcircle:hover {
+  transform: scale(1.1);
+}
+
+.new-badge {
+  color: black;
+}
+
+.badge {
+  margin-right: 10px;
+}
+
+.userInfo {
+  width: 100%;
+}
+
+.isnew {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#runnerButton {
+  width: 100%;
+}
+
+.orderlist ul {
+  margin-bottom: 0;
+}
+
+.orderlist {
+  padding-left: 1em;
+}
+
+.accordion {
+   transition: 1s all ease-in-out;
+}
+
+.userAccord {
+   transition: 1s all ease-in-out;
+}
+
+@media screen and (max-width: 424px) {
+  .userid {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .userAccord {
+    overflow-x: scroll;
+  }
+}

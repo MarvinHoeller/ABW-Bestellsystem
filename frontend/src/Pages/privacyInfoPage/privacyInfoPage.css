@@ -1,0 +1,9 @@
+.card {
+   color: black;
+   margin-bottom: 1.5rem;
+}
+.card span {
+   display: block;
+   margin-top: 6px;
+   font-weight: 700;
+}

@@ -1,0 +1,17 @@
+.card {
+   color: black;
+   margin-bottom: 1.5rem;
+   justify-content: space-between;
+   padding: 25px;
+}
+.card span {
+   display: block;
+   margin-top: 6px;
+   font-weight: 700;
+}
+
+.center-img {
+   display: flex;
+   height: 100%;
+   align-items: center;
+}

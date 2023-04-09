@@ -1,0 +1,9 @@
+.runnerinfo {
+   align-items: end;
+   display: flex;
+   justify-content: flex-end;
+}
+
+.dropdown {
+   height: auto;
+}

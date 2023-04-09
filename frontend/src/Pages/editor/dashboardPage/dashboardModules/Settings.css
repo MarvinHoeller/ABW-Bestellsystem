@@ -1,0 +1,19 @@
+#menuAdditions li:hover {
+   text-decoration: line-through;
+}
+
+ul {
+   width: fit-content;
+}
+
+li {
+   cursor: pointer;
+}
+
+.notifications button {
+   width: 1em !important;
+}
+
+.notifications {
+   gap: 2em;
+}

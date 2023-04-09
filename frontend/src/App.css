@@ -1,0 +1,13 @@
+body {
+  color: white;
+  background-color: rgb(40, 44, 52);
+}
+
+html, body {
+  margin: 0;
+}
+
+.content {
+  margin-top: 4vh;
+  margin-bottom: 8vh;
+}

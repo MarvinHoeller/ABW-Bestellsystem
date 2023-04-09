@@ -1,0 +1,50 @@
+version: "3"
+services:
+  frontend:
+    container_name: abw-bs-fe
+    restart: always
+    build: ../frontend/
+    ports:
+      - '127.0.0.1:6969:80'
+    networks:
+      - abwms
+ 
+  backend:
+    container_name: abw-bs-be
+    restart: always
+    build: ../backend/
+    environment:
+      - EDITOR_URL=
+      - FRONTEND_URL=
+      - PORT=
+      - MONGO_USERNAME=
+      - MONGO_PASSWORD=
+    ports:
+      - "127.0.0.1:42069:42069"
+    networks:
+      - abwms
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    build: .
+    environment:
+        # provide your credentials here
+        - MONGO_INITDB_DATABASE=
+        - MONGO_INITDB_ROOT_USERNAME=
+        - MONGO_INITDB_ROOT_PASSWORD=
+    ports:
+      - "127.0.0.1:27017:27017"
+    networks:
+      - abwms
+    volumes:
+      - mongo-data:/data/db
+ 
+networks:
+  abwms:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local

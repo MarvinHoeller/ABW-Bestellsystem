@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body,
+		div,
+		table,
+		thead,
+		tbody,
+		tfoot,
+		tr,
+		th,
+		td,
+		p {
+			font-family: "Open Sans";
+		}
+		body {
+			margin: 3.5rem;
+		}
+
+		#main-title {
+			font-size: 25px;
+			text-decoration: underline;
+			font-weight: bold;
+			vertical-align: bottom;
+		}
+
+		#price {
+			font-size: 16px;
+		}
+
+		#price-total {
+			width: 140px;
+		}
+
+		.border-top-2 {
+			border-top: 3px solid #000000;
+		}
+
+		.boder-bottom-2 {
+			border-bottom: 3px solid #000000;
+
+		}
+
+		.font-small {
+			font-size: 11px;
+			text-align: right;
+		}
+
+		.big-border {
+			border: 2px solid black;
+		}
+
+		td {
+			text-align: left;
+		}
+
+		td:nth-child(4) {
+			text-align: center;
+			font-size: small !important;
+			font-weight: bold;
+		}
+
+		td:nth-child(1) {
+			width: 35px !important;
+		}
+
+		.n-line td:nth-child(1) {
+			font-weight: bolder;
+			text-align: center;
+			font-size: 13px;
+		}
+
+		.comments {
+			font-size: 11px;
+		}
+
+		.header-line td {
+			border-top: 1px solid black;
+			text-align: center;
+			font-weight: normal !important;
+			font-size: 10px;
+		}
+
+		.header-line td {
+			width: 120px;
+		}
+
+		.header-line {
+			height: 60px;
+		}
+
+		.header-title {
+			font-size: x-large !important;
+		}
+
+		.m-line td {
+			border-right: 1px solid #000000;
+			border-bottom: 1px solid #000000;
+			text-align: center;
+		}
+		
+		.m-line td:nth-child(1) {
+			border-left: 1px solid #000000;
+		}
+
+		.n-line td:nth-child(1) {
+			border-left: 1px solid #000000;
+			/*font-size: large;*/
+		}
+
+		.n-line td:nth-child(2) {
+			text-align: left;
+		}
+
+		.n-line td {
+			border-right: 1px solid #000000;
+			border-top: 1px solid #000000;
+			border-bottom: 1px solid #000000;
+			text-align: center;
+		}
+
+		.n-line td, .m-line td{
+			font-size: 13px;
+			line-height: 1.25;
+			margin: 0;
+			padding: 0;
+			vertical-align: middle;
+		}
+
+		table {
+			border-spacing: 0;
+			cellspacing: 0;
+			border: 0;
+		}
+
+		.info td {
+			font-size: 14px;
+			text-align: right;
+		}
+
+	</style>
+</head>
+
+<body>
+	<table >
+		{{!-- Number --}}
+		<colgroup width="30"></colgroup>
+		{{!-- Item Names --}}
+		<colgroup width="700"></colgroup>
+		{{!-- Price --}}
+		<colgroup width="79"></colgroup>
+		<colgroup width="20"></colgroup>
+		<colgroup width="140"></colgroup>
+		<colgroup width="20"></colgroup>
+		<colgroup width="20"></colgroup>
+		<colgroup width="20"></colgroup>
+		<colgroup width="20"></colgroup>
+		<tr>
+			<td height="55">
+
+			</td>
+			<td id="main-title" colspan="2">
+				Belegt. Brötchen "Außer Haus"
+			</td>
+			<td></td>
+			<td style="text-align: left; vertical-align: top">
+				<span style="font-size: 9px; font-weight: bold;">Bestellung für den <br>(Datum):</span>
+			</td>
+			<td colspan="2" style="text-align: center;" class="big-border">
+				{{date}}
+			</td>
+			<td style="text-align: right; vertical-align: bottom;">
+				Name:
+			</td>
+			<td style="text-align: center; font-size: x-large;" class="big-border" colspan=2>{{rank}}</td>
+		</tr>
+		<tr class="header-line m-line">
+			<td>
+				Nr.
+			</td>
+			<td class="header-title">Casino Richthofen e.V.</td>
+			<td><div id="price">Preis</div> <span style="font-size: 0.8em;">inkl. MwSt</span></td>
+			<td colspan="2">	<b><span style="font-size: 12px;">Menge</span></b><br>
+				<span class="font-small"><b>N</b> = norm.Bröt. <br></span>
+				<span class="font-small"><b>M</b> = Mehrkorn</span></td>
+			<td><b>Menge</b> <br>Ketchup</td>
+			<td><b>Menge</b> <br>Senf</td>
+			<td><b>Menge</b> <br>süßer Senf</td>
+			<td id="price-total">Preis <br> gesamt</td>
+			<td>Bemerkung</td>
+		</tr>
+		{{#each menuitem as |item|}}
+			<tr class="n-line">
+				<td>
+					{{add @index}}
+				</td>
+				<td>
+					{{item.name}}
+				</td>
+				<td>
+					{{formatToCurrent item.price}}
+				</td>
+				<td>N</td>
+				<td>{{deleteZero item.normal.quantity}}</td>
+				<td>{{deleteZero item.normal.ketchup}}</td>
+				<td>{{deleteZero item.normal.mustard}}</td>
+				<td>{{deleteZero item.normal.sweetMustard}}</td>
+				<td>{{multiplyToCurrent item.normal.quantity item.price}}</td>
+				<td class="comments">{{{sliceComments item.normal.comments}}}</td>
+			</tr>
+			<tr class="m-line">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>M</td>
+				<td>{{deleteZero item.multigrain.quantity}}</td>
+				<td>{{deleteZero item.multigrain.ketchup}}</td>
+				<td>{{deleteZero item.multigrain.mustard}}</td>
+				<td>{{deleteZero item.multigrain.sweetMustard}}</td>
+				<td>{{multiplyToCurrent item.multigrain.quantity item.price}}</td>
+				<td class="comments">{{{sliceComments item.multigrain.comments}}}</td>
+			</tr>
+		{{/each}}
+		<tr>
+			{{!-- <td></td>
+			<td colspan="2">
+				* zusätzl. mit Eisbergsalat und Gurke belegt
+			</td> --}}
+			<td colspan="9"></td>
+			<td style="text-align: center;">{{total}}</td>
+		</tr>
+		<tr style="height: 10px;"></tr>
+		<tr class="info">
+			<td colspan="6"></td>
+			<td colspan="3">
+				Tel.Nr. für evtl. Rückfragen:
+			</td>
+			<td class="big-border">{{phone}}</td>
+		</tr>
+		<tr class="info">
+			<td colspan="6"></td>
+			<td colspan="3">
+				Gewünschte Abholzeit:
+			</td>
+			<td class="big-border" style="border-top: none;">
+				{{pickUp}} Uhr
+			</td>
+		</tr>
+	</table>
+</body>
+
+</html>

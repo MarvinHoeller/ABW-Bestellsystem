@@ -1,0 +1,94 @@
+import dotenv from 'dotenv';
+import { expand } from 'dotenv-expand';
+
+expand(dotenv.config());
+
+import mongoose from 'mongoose';
+import router from './routes/router';
+import express from 'express';
+import bodyparser from 'body-parser';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import fileUpload from 'express-fileupload';
+
+import config from '../config';
+import { logger } from '../logger-init';
+import { validationResult } from 'express-validator';
+import { Request, Response, NextFunction } from 'express';
+
+const app = express();
+const maxFileSize = 10 * 1024 * 1024;
+
+mongoose
+  .connect(config().MONGO_URL)
+  .then(() => {
+    logger.info('Connected to MongoDB!');
+  })
+  .catch((err) => {
+    logger.error('Connection to MongoDB failed!');
+    logger.error(err);
+  });
+
+app.use(helmet());
+logger.debug("Module 'helmet' initialized!");
+
+app.use(
+  fileUpload({
+    limits: { fileSize: maxFileSize },
+    // TODO: Add limithandler
+    // limitHandler: (req, res) => {
+    // 	return res.status(400).jsonp({
+    // 		access: true,
+    // 		error: `Filesize is too big (>${maxFileSize} bytes)`,
+    // 		res: `Filesize is too big (>${maxFileSize} bytes)`,
+    // 	});
+    // }
+  })
+);
+logger.debug("Module 'fileUpload' initialized!");
+
+app.use(bodyparser.json());
+/* Logging the initialization of the bodyparser module. */
+logger.debug("Module 'bodyparser' initialized!");
+
+app.use(
+  cors({
+    origin: [
+      process.env.EDITOR_URL || 'https://rikorick.de/editor',
+      process.env.FRONTEND_URL || 'https://rikorick.de/order',
+      'http://localhost:5173',
+      'http://localhost:5174',
+    ],
+  })
+);
+logger.debug(`Module 'cors' initialized!`);
+
+app.use(
+  rateLimit({
+    windowMs: 2 * 60 * 1000, // 2 minutes
+    max: 300, // Limit each IP to 300 requests per `window` (here, per 2 minutes)
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  })
+);
+logger.debug(`Module 'rateLimit' initialized!`);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const requesturl = req.originalUrl.split('/');
+
+  if (requesturl[1] === 'customPage') requesturl[1] = 'CSTMPG';
+
+  logger.http(`getting ${req.method} request for /${requesturl[2]}`, {
+    service: requesturl[1].toUpperCase(),
+    ip: req.ip,
+  });
+  next();
+});
+
+app.use(router);
+logger.debug(`API initialized!`);
+
+app.listen(config().PORT, () =>
+  logger.info(`API is up and running on port ${config().PORT}!`)
+);

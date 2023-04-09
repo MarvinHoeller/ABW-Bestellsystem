@@ -1,0 +1,11 @@
+.todays-runner {
+  text-align: center;
+}
+.icon {
+  pointer-events: none;
+}
+
+.cart-dropdown {
+  display: flex;
+  justify-content: flex-end;
+}

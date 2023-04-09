@@ -1,0 +1,68 @@
+.credits {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(220, 13%, 22%);
+  color: hsl(220, 13%, 60%);
+  z-index: 3;
+  font-style: italic;
+}
+
+.credits a {
+  color: hsl(220, 13%, 60%);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.info {
+  text-align: center;
+}
+
+.notify {
+  color: black;
+}
+
+.notify-button {
+  position: fixed;
+  right: 20px;
+  bottom: 14px;
+  cursor: pointer;
+  transition: color 0.5s ease-in-out;
+}
+
+.notify-ring,
+.notify-button:hover {
+  animation: btnWiggle 2s infinite;
+  transition: color 0.5s ease-in-out;
+  color: hsl(220, 13%, 80%);
+}
+
+.notify-acceptbuttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+}
+
+@keyframes btnWiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  2% {
+    transform: rotate(-10deg);
+  }
+  9.5% {
+    transform: rotate(10deg);
+  }
+  17% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

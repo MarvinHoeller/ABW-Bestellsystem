@@ -1,0 +1,11 @@
+#menuAdditions li:hover {
+   text-decoration: line-through;
+}
+
+ul {
+   width: fit-content;
+}
+
+li {
+   cursor: pointer;
+}
