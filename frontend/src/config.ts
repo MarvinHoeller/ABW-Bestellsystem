@@ -1,5 +1,5 @@
 const prod = {
-  url: import.meta.env.BS_API_URL || 'https://rikorick.de/api/order',
+  url: import.meta.env.API_URL,
 };
 const dev = {
   url: 'http://localhost:42069',

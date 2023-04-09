@@ -3,7 +3,9 @@ services:
   frontend:
     container_name: abw-bs-fe
     restart: always
-    build: ../frontend/
+    build: ./frontend/
+    env_file:
+      - local.frontend.env
     ports:
       - '127.0.0.1:6969:80'
     networks:
@@ -12,13 +14,9 @@ services:
   backend:
     container_name: abw-bs-be
     restart: always
-    build: ../backend/
-    environment:
-      - EDITOR_URL=
-      - FRONTEND_URL=
-      - PORT=
-      - MONGO_USERNAME=
-      - MONGO_PASSWORD=
+    build: ./backend/
+    env_file:
+      - local.backend.env
     ports:
       - "127.0.0.1:42069:42069"
     networks:
@@ -29,11 +27,13 @@ services:
   mongo:
     container_name: mongo
     build: .
+    restart: always
+    env_file:
+      - local.backend.env
     environment:
-        # provide your credentials here
-        - MONGO_INITDB_DATABASE=
-        - MONGO_INITDB_ROOT_USERNAME=
-        - MONGO_INITDB_ROOT_PASSWORD=
+        - MONGO_INITDB_DATABASE=${MONGO_DB}
+        - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+        - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     ports:
       - "127.0.0.1:27017:27017"
     networks:
