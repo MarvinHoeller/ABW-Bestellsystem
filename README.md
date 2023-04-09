@@ -1,4 +1,4 @@
-# ABWMS-Docker-Compose
+# Migrate MongoDB to newer version
 
 db.users.updateOne({ \_id: ObjectId("xxx") }, { $set: { new: false }})
 
