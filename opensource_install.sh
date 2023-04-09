@@ -3,7 +3,7 @@ COL_GREEN='\033[0;32m'
 COL_RED='\033[0;31m'
 COL_RESET='\033[0m'
 
-GIT_NAME="Bestellsystem"
+GIT_NAME="ABW-Bestellsystem"
 
 ABWBS_GITURL="https://github.com/ABW-Bestellsystem/${GIT_NAME}.git"
 
@@ -21,16 +21,6 @@ package_exists() {
 
 install_dockerparts() {
     printf "%b${COL_GREEN}Installing Docker-Components${COL_RESET}\\n"
-    
-    #  apt-get install ca-certificates curl gnupg lsb-release -y
-    #  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-    
-    #  echo \
-    #  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-    #  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    
-    #  sudo apt-get update
-    #  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
     
     sudo apt-get update
     apt-get install ca-certificates curl gnupg lsb-release
@@ -100,7 +90,10 @@ if [ ! -d "$INSTALL_REPO" ]; then
     elif [ ! "$(ls -A $INSTALL_REPO)" ]; then
     printf "%b${COL_GREEN}Installation directory is empty${COL_RESET}\\n"
     installrepos
+    printf "%b${COL_GREEN} Installation finished${COL_RESET}\\n "
+    printf "%b${COL_GREEN} You can find the installations files in ${INSTALL_REPO}/${GIT_NAME}${COL_RESET}\\n"
 else
     printf "%b${COL_GREEN}Installation directory already exists ${COL_RESET}\\n"
     updaterepos
+    printf "%b${COL_GREEN}You can find the installations files in ${INSTALL_REPO}/${GIT_NAME}${COL_RESET}\\n"
 fi
