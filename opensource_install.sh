@@ -82,23 +82,23 @@ installrepos() {
 
 configureCompose() {
     
-    # remove old .env file
+    # remove old .env files
     
-    if [ -f "$INSTALL_REPO/${GIT_NAME}/.local.backend.env" ]; then
-        rm $INSTALL_REPO/${GIT_NAME}/.local.backend.env
+    if [ -f "$INSTALL_REPO/${GIT_NAME}/.env" ]; then
+        rm $INSTALL_REPO/${GIT_NAME}/.env
     fi
     
     # ask what main-url should be used (standard: http://localhost:3000)
     printf "%b${COL_GREEN}What should be the main-url? (standart http://localhost:3000)${COL_RESET}\\n"
     read -p "Main-URL: " mainurl
     mainurl="${mainurl:-http://localhost:3000}"
-    echo "FRONTEND_URL=$mainurl" >> $INSTALL_REPO/${GIT_NAME}/.local.backend.env
+    echo "FRONTEND_URL=$mainurl" >> $INSTALL_REPO/${GIT_NAME}/.env
     
     # ask what mongodb-user should be used (standard: abwbs)
     printf "%b${COL_GREEN}What should be the mongodb-user? (standard: abwbs) ${COL_RESET}\\n"
     read -p "MongoDB User: " mongouser
     mongouser="${mongouser:-abwbs}"
-    echo "MONGO_USER=$mongouser" >> $INSTALL_REPO/${GIT_NAME}/.local.backend.env
+    echo "MONGO_USER=$mongouser" >> $INSTALL_REPO/${GIT_NAME}/.env
     
     
     # ask what mongodb-password should be used
@@ -122,19 +122,19 @@ configureCompose() {
     done
     
     printf "\\n"
-    echo "MONGO_PASSWORD=$password" >> $INSTALL_REPO/${GIT_NAME}/.local.backend.env
+    echo "MONGO_PASSWORD=$password" >> $INSTALL_REPO/${GIT_NAME}/.env
 
     # ask what mongodb-database should be used (standard: abwdb)
     printf "%b${COL_GREEN}What should be the mongodb-database? (standard: abwdb)${COL_RESET}\\n"
     read -p "MongoDB Database: " mongodb
     mongodb="${mongodb:-abwdb}"
-    echo "MONGO_DB=$mongodb" >> $INSTALL_REPO/${GIT_NAME}/.local.backend.env
+    echo "MONGO_DB=$mongodb" >> $INSTALL_REPO/${GIT_NAME}/.env
 
     # ask what API-URL should be used (standard: http://localhost:42069)
     printf "%b${COL_GREEN}What should be the API-URL? (standard http://localhost:42069)${COL_RESET}\\n"
     read -p "API-URL: " apiurl
     apiurl="${apiurl:-http://localhost:42069}"
-    echo "API_URL=$apiurl" >> $INSTALL_REPO/${GIT_NAME}/.local.frontend.env
+    echo "API_URL=$apiurl" >> $INSTALL_REPO/${GIT_NAME}/.env
 
     # copy docker-compose.example.yml to docker-compose.yml
     if [ -f "$INSTALL_REPO/${GIT_NAME}/docker-compose.yml" ]; then
