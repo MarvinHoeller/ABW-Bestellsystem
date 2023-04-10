@@ -161,7 +161,7 @@ configureCompose() {
     echo "API_URL=$apiurl" >> $INSTALL_REPO/${GIT_NAME}/.env
     
     # ask what the first user should be called (standard: admin)
-    printf "%b${GREEN}What should be the first user called? (standard: admin)${RESET}\\n"
+    printf "%b${GREEN}What should be the first user called? (standard: admin, min. length 3) ${RESET}\\n"
     read -p "First User: " firstuser
     firstuser="${firstuser:-admin}"
     echo "FIRST_USER=$firstuser" >> $INSTALL_REPO/${GIT_NAME}/.env
@@ -171,7 +171,7 @@ configureCompose() {
     password2=""
     
     # ask what the password for the first user should be
-    printf "%b${GREEN}What should be the password for the first user?${RESET}\\n"
+    printf "%b${GREEN}What should be the password for the first user? (min. length 5)${RESET}\\n"
     read -s -p "Password: " password
     printf "\\n"
     read -s -p "Repeat Password: " password2
