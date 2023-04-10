@@ -94,10 +94,10 @@ configureCompose() {
         rm $INSTALL_REPO/${GIT_NAME}/.env
     fi
     
-    # ask what main-url should be used (standard: http://localhost:3000)
-    printf "%b${GREEN}What should be the main-url? (standart http://localhost:3000)${RESET}\\n"
+    # ask what main-url should be used (standard: http://localhost:6969)
+    printf "%b${GREEN}What should be the main-url? (standard http://localhost:6969)${RESET}\\n"
     read -p "Main-URL: " mainurl
-    mainurl="${mainurl:-http://localhost:3000}"
+    mainurl="${mainurl:-http://localhost:6969}"
     echo "FRONTEND_URL=$mainurl" >> $INSTALL_REPO/${GIT_NAME}/.env
     
     # ask what mongodb-user should be used (standard: abwbs)
