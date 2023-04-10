@@ -14,7 +14,7 @@ import fileUpload from 'express-fileupload';
 
 import config from '../config';
 import { logger } from '../logger-init';
-import { validationResult } from 'express-validator';
+import bcrypt from 'bcrypt';
 import { Request, Response, NextFunction } from 'express';
 import UserModel from '@models/userModel';
 
@@ -30,14 +30,21 @@ mongoose
 
     const users = await UserModel.find({});
 
-    if(users.length === 0) {
+    if (users.length === 0) {
+
+      if (process.env.FIRST_USER_PASSWORD === undefined) throw new Error('No password for first user set! (process.env.FIRST_USER_PASSWORD)');
+
+      // encrypt password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(process.env.FIRST_USER_PASSWORD, salt);
+
       // create first user
       const user = new UserModel({
         forename: process.env.FIRST_USER,
         surname: '',
         username: process.env.FIRST_USER,
         rank: '1. IT',
-        password: process.env.FIRST_USER_PASSWORD,
+        password: hashedPassword,
         permissionID: config().PERMISSON_EDITOR
       });
 
