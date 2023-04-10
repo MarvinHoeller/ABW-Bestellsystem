@@ -34,4 +34,4 @@ target/*
 docker-compose.yml
 install.sh
 test.sh
-mongo-init.js
+# mongo-init.js

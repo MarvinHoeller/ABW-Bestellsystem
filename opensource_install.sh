@@ -236,7 +236,8 @@ main() {
         printf "%b${GREEN}4)${WHITE} Start Docker-Compose${RESET}\\n"
         printf "%b${GREEN}5)${WHITE} Stop Docker-Compose${RESET}\\n"
         printf "%b${GREEN}6)${WHITE} Restart Docker-Compose${RESET}\\n"
-        printf "%b${GREEN}7)${WHITE} Exit${RESET}\\n"
+        printf "%b${GREEN}7)${WHITE} Recompile Docker-Compose${RESET}\\n"
+        printf "%b${GREEN}8)${WHITE} Exit${RESET}\\n"
         
         # read choise with color
         read -p "$(printf "%b${CYAN}Enter choice ${PURPLE}[ 1 - 7 ]${RESET} ")" choice
@@ -256,7 +257,9 @@ main() {
             ;;
             6) docker-compose -f $INSTALL_REPO/${GIT_NAME}/docker-compose.yml restart
             ;;
-            7) exit 0
+            7) docker-compose -f $INSTALL_REPO/${GIT_NAME}/docker-compose.yml up -d --build
+            ;;
+            8) exit 0
             ;;
             *) printf "%b${RED}Error...${RESET}\\n" && sleep 2
             ;;
