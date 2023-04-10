@@ -1,5 +1,5 @@
 const prod = {
-  url: import.meta.env.API_URL,
+  url: import.meta.env.VITE_API_URL,
 };
 const dev = {
   url: 'http://localhost:42069',
