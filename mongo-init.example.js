@@ -1,11 +1,11 @@
 print('Start #################################################################');
 
-db = db.getSiblingDB('abwdb');
+db = db.getSiblingDB(process.env.MONGO_DB);
 db.createUser(
   {
-    user: '',
-    pwd: '',
-    roles: [{ role: 'readWrite', db: 'abwdb' }],
+    user: process.env.MONGO_USER,
+    pwd: process.env.MONGO_PASSWORD,
+    roles: [{ role: 'readWrite', db: process.env.MONGO_DB }],
   },
 );
 

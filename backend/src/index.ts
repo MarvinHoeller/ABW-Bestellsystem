@@ -16,14 +16,35 @@ import config from '../config';
 import { logger } from '../logger-init';
 import { validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
+import UserModel from '@models/userModel';
 
 const app = express();
 const maxFileSize = 10 * 1024 * 1024;
 
 mongoose
   .connect(config().MONGO_URL)
-  .then(() => {
+  .then(async () => {
     logger.info('Connected to MongoDB!');
+
+    // get first users from db
+
+    const users = await UserModel.find({});
+
+    if(users.length === 0) {
+      // create first user
+      const user = new UserModel({
+        forename: process.env.FIRST_USER,
+        surname: '',
+        username: process.env.FIRST_USER,
+        rank: '1. IT',
+        password: process.env.FIRST_USER_PASSWORD,
+        permissionID: config().PERMISSON_EDITOR
+      });
+
+      await user.save();
+      logger.info('Created first user!');
+    }
+
   })
   .catch((err) => {
     logger.error('Connection to MongoDB failed!');
