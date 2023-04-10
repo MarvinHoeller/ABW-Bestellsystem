@@ -5,7 +5,7 @@
   "homepage": "https://rikorick.de/order",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --base=/order/",
+    "build": "tsc && vite build",
     "previewbuild": "tsc && vite build",
     "preview": "vite preview"
   },

@@ -5,8 +5,8 @@ services:
     restart: always
     build: frontend/
     environment:
-      - API_URL=${API_URL}
-      - SUBFOLDER=${SUBFOLDER}
+      - VITE_API_URL=${API_URL}
+      - VITE_SUBFOLDER=${SUBFOLDER}
     ports:
       - '127.0.0.1:6969:80'
     networks:
