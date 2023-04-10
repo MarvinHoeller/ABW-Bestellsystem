@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Card, Container, Offcanvas } from 'react-bootstrap';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import config from '../config';
 import infoPopup from '../modules/infoPopup';
 import Menu from '../modules/menu/Menu';
@@ -72,9 +72,18 @@ export function useAuth(): AuthContextType {
 export function Auth({ children }: { children: JSX.Element }) {
   let auth = useAuth();
 
+  const location = useLocation();
+
   //TODO: check if accessToken is expired
   if (!localStorage.getItem('accessToken')) {
     return <Navigate to={'/'} replace />;
+  }
+
+  if (auth.sites.length === 0 && auth.user.permissionID === 'Editor') {
+    if(!location.pathname.startsWith('/editor'))
+      return <Navigate to={'/editor'} replace />;
+    else
+      return children;
   }
 
   if (auth.sites.length === 0) {
@@ -273,7 +282,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
 
-    setloginStatus(undefined);    
+    setloginStatus(undefined);
   };
 
   const forceSignout = async (redirect: VoidFunction) => {
