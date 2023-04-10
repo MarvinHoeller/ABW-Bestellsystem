@@ -31,6 +31,10 @@ target/*
 *.sln
 *.sw?
 
+# exclude all .js files in the backend/src folder
+backend/src/**/*.js
+logger-init.js
+
 docker-compose.yml
 install.sh
 test.sh

@@ -86,7 +86,7 @@ app.use(
       process.env.EDITOR_URL || 'https://rikorick.de/editor',
       process.env.FRONTEND_URL || 'https://rikorick.de/order',
       'http://localhost:5173',
-      'http://localhost:5174',
+      'http://localhost:4173',
     ],
   })
 );

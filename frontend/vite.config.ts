@@ -3,8 +3,13 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ mode }) => {
+
+  console.log('Vite mode: ', process.env);
+  
+
   return ({
       plugins: [react(), tsconfigPaths()],
       logLevel: 'error',
+      base: mode === 'development' ? '/' : `/${process.env.VITE_SUBFOLDER}`,
   });
 })
