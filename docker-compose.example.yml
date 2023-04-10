@@ -4,6 +4,8 @@ services:
     container_name: abw-bs-fe
     restart: always
     build: frontend/
+    environment:
+      - API_URL=${API_URL}
     ports:
       - '127.0.0.1:6969:80'
     networks:
@@ -13,8 +15,11 @@ services:
     container_name: abw-bs-be
     restart: always
     build: backend/
-    env_file:
-      - .local.backend.env
+    environment:
+      - FRONTEND_URL=${FRONTEND_URL}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_DB=${MONGO_DB}
     ports:
       - "127.0.0.1:42069:42069"
     networks:
