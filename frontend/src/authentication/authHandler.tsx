@@ -80,7 +80,7 @@ export function Auth({ children }: { children: JSX.Element }) {
   }
 
   if (auth.sites.length === 0 && auth.user.permissionID === 'Editor') {
-    if(!location.pathname.startsWith('/editor'))
+    if(!location.pathname.startsWith('/edit'))
       return <Navigate to={'/editor'} replace />;
     else
       return children;

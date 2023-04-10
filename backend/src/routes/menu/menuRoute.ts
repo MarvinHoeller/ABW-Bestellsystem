@@ -14,7 +14,7 @@ const router = Router();
 router.get('/', AUTH, PERMS.USER, async (req: Request, res: Response) => {
   const siteID = req.headers.siteid ?? '';
 
-  MenuModel.find(siteID.length > 0 ? { siteID: siteID } : {}).sort({index: 1}).then((data: ImenuSchema | ImenuSchema[]) => {
+  MenuModel.find(siteID.length > 0 ? { siteID: siteID } : {}).sort({ index: 1 }).then((data: ImenuSchema | ImenuSchema[]) => {
     menuRouteLogger.debug('Sending Menu with status 200');
     return res.status(200).jsonp({ access: true, res: data });
   }).catch((err: Error) => {
@@ -37,6 +37,7 @@ router.put(
     PERMS.VALIDATE,
   ],
   async (req: Request, res: Response) => {
+
     if (!(await SiteSettingsModel.findById(req.headers.siteid))?._id) {
       menuRouteLogger.error(
         `requested Site ${req.headers.siteid} was deleted`
@@ -52,13 +53,18 @@ router.put(
       ? (req.files.image as UploadedFile)
       : { data: '' };
 
-    const newitem = {
+    let newitem = {
       name: req.body.name,
       siteID: new mongoose.Types.ObjectId(req.headers.siteid as string),
       price: Number(req.body.price),
       infotext: req.body.infotext,
-      image: data,
+      image: data as Buffer,
     }
+
+    req.body.menuID ? null : req.body.menuID = new mongoose.Types.ObjectId();
+
+    console.log(req.body.menuID);
+    
 
     MenuModel.updateOne({ _id: req.body.menuID, siteID: req.headers.siteid }, { $set: newitem }, { upsert: true }).then(() => {
       menuRouteLogger.info(`Menuitem ${req.body.name} upserted`);
@@ -68,6 +74,9 @@ router.put(
       });
     })
       .catch((err: Error) => {
+        console.log(err);
+
+
         menuRouteLogger.error(`Could not save Menuitem ${req.body.name}`);
         res.status(500).jsonp({
           access: true,
