@@ -98,7 +98,15 @@ configureCompose() {
     printf "%b${GREEN}What should be the main-url? (standard http://localhost:6969)${RESET}\\n"
     read -p "Main-URL: " mainurl
     mainurl="${mainurl:-http://localhost:6969}"
+
+    # ask if the app is deployed in a subfolder. If yes, ask for the subfolder
+    printf "%b${GREEN}Is the app deployed in a subfolder? (default: '/')${RESET}\\n"
+    read -p "Subfolder: " subfolder
+    subfolder="${subfolder:-/}"
+
+    mainurl="${mainurl}${subfolder}"
     echo "FRONTEND_URL=$mainurl" >> $INSTALL_REPO/${GIT_NAME}/.env
+    echo "SUBFOLDER=$subfolder" >> $INSTALL_REPO/${GIT_NAME}/.env
     
     # ask what mongodb-user should be used (standard: abwbs)
     printf "%b${GREEN}What should be the mongodb-user? (standard: abwbs) ${RESET}\\n"
