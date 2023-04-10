@@ -4,7 +4,11 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ mode }) => {
 
-  console.log('Vite mode: ', process.env);
+  console.log(process.env.VITE_SUBFOLDER);
+  
+
+  if(process.env.VITE_SUBFOLDER.startsWith('/')) 
+    process.env.VITE_SUBFOLDER = process.env.VITE_SUBFOLDER.substring(1);
   
 
   return ({
