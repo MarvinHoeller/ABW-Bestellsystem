@@ -6,7 +6,7 @@ set -e
 mongosh <<EOF
 use admin
 db = db.getSiblingDB('$MONGO_INITDB_DATABASE');
-db.createCollection('receipts')
+db.createCollection('users')
 db.createUser(
   {
     user: "$MONGO_INITDB_ROOT_USERNAME",
