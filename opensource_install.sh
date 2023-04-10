@@ -227,7 +227,7 @@ checkInstallStatus() {
 main() {
     # display menu
     clear
-    while [ "$choice" != "7" ]; do
+    while [ "$choice" != "8" ]; do
         
         printf "%b${GREEN}What do you want to do?${RESET}\\n"
         printf "%b${GREEN}1)${WHITE} Install${RESET}\\n"
