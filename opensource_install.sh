@@ -109,6 +109,12 @@ configureCompose() {
     fi
     
     mainurl="${mainurl}${subfolder}"
+
+    # if mainurl ends with /, remove it
+    if [[ $mainurl == */ ]]; then
+        mainurl="${mainurl::-1}"
+    fi
+
     echo "FRONTEND_URL=$mainurl" >> $INSTALL_REPO/${GIT_NAME}/.env
     echo "SUBFOLDER=$subfolder" >> $INSTALL_REPO/${GIT_NAME}/.env
     
@@ -252,7 +258,7 @@ main() {
         printf "%b${GREEN}8)${WHITE} Exit${RESET}\\n"
         
         # read choise with color
-        read -p "$(printf "%b${CYAN}Enter choice ${PURPLE}[ 1 - 7 ]${RESET} ")" choice
+        read -p "$(printf "%b${CYAN}Enter choice ${PURPLE}[ 1 - 8 ]${RESET} ")" choice
         
         clear
         case $choice in
