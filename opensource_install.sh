@@ -115,13 +115,13 @@ configureCompose() {
     
     # repeat until passwords match and not empty
     while [ "$password" != "$password2" ] || [ -z "$password" ]; do
-
+        
         if [ -z "$password" ]; then
             printf "%b${RED}\\nPassword cannot be empty${RESET}\\n"
         else
             printf "%b${RED}\\nPasswords do not match${RESET}\\n"
         fi
-
+        
         read -s -p "Password: " password
         printf "\\n"
         read -s -p "Repeat Password: " password2
@@ -129,24 +129,57 @@ configureCompose() {
     
     printf "\\n"
     echo "MONGO_PASSWORD=$password" >> $INSTALL_REPO/${GIT_NAME}/.env
-
+    
     # ask what mongodb-database should be used (standard: abwdb)
     printf "%b${GREEN}What should be the mongodb-database? (standard: abwdb)${RESET}\\n"
     read -p "MongoDB Database: " mongodb
     mongodb="${mongodb:-abwdb}"
     echo "MONGO_DB=$mongodb" >> $INSTALL_REPO/${GIT_NAME}/.env
-
+    
     # ask what API-URL should be used (standard: http://localhost:42069)
     printf "%b${GREEN}What should be the API-URL? (standard http://localhost:42069)${RESET}\\n"
     read -p "API-URL: " apiurl
     apiurl="${apiurl:-http://localhost:42069}"
     echo "API_URL=$apiurl" >> $INSTALL_REPO/${GIT_NAME}/.env
-
+    
+    # ask what the first user should be called (standard: admin)
+    printf "%b${GREEN}What should be the first user called? (standard: admin)${RESET}\\n"
+    read -p "First User: " firstuser
+    firstuser="${firstuser:-admin}"
+    echo "FIRST_USER=$firstuser" >> $INSTALL_REPO/${GIT_NAME}/.env
+    
+    # clear password variable
+    password=""
+    password2=""
+    
+    # ask what the password for the first user should be
+    printf "%b${GREEN}What should be the password for the first user?${RESET}\\n"
+    read -s -p "Password: " password
+    printf "\\n"
+    read -s -p "Repeat Password: " password2
+    
+    # repeat until passwords match and not empty
+    while [ "$password" != "$password2" ] || [ -z "$password" ]; do
+        
+        if [ -z "$password" ]; then
+            printf "%b${RED}\\nPassword cannot be empty${RESET}\\n"
+        else
+            printf "%b${RED}\\nPasswords do not match${RESET}\\n"
+        fi
+        
+        read -s -p "Password: " password
+        printf "\\n"
+        read -s -p "Repeat Password: " password2
+    done
+    
+    printf "\\n"
+    echo "FIRST_USER_PASSWORD=$password" >> $INSTALL_REPO/${GIT_NAME}/.env
+    
     # copy docker-compose.example.yml to docker-compose.yml
     if [ -f "$INSTALL_REPO/${GIT_NAME}/docker-compose.yml" ]; then
         rm $INSTALL_REPO/${GIT_NAME}/docker-compose.yml
     fi
-
+    
     cp $INSTALL_REPO/${GIT_NAME}/docker-compose.example.yml $INSTALL_REPO/${GIT_NAME}/docker-compose.yml
 }
 
@@ -156,7 +189,7 @@ postInstall() {
     
     select yn in "Yes" "No"; do
         case $yn in
-            Yes ) 
+            Yes )
                 clear
                 docker-compose -f $INSTALL_REPO/${GIT_NAME}/docker-compose.yml up -d;
                 printf "%b${GREEN}Docker-Compose started${RESET}\\n"
@@ -176,7 +209,7 @@ checkInstallStatus() {
         printf "%b${GREEN}Creating installation directory${RESET}\\n"
         mkdir -p $INSTALL_REPO
         getRepos
-    elif [ ! "$(ls -A $INSTALL_REPO)" ]; then
+        elif [ ! "$(ls -A $INSTALL_REPO)" ]; then
         printf "%b${GREEN}Installation directory is empty${RESET}\\n"
         getRepos
         printf "%b${GREEN}Finished getting repositories${RESET}\\n"
