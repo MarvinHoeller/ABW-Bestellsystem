@@ -208,7 +208,7 @@ class TokenHandler {
       MONGO_URL:
         process.env.NODE_ENV === 'development'
           ? 'mongodb://127.0.0.1:27017/abwdb'
-          : `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@mongo:27017/${process.env.MONGO_DB}?authSource=admin`,
+          : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/${process.env.MONGO_DB}?authSource=admin`,
     };
   }
 }
