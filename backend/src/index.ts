@@ -16,7 +16,7 @@ import config from '../config';
 import { logger } from '../logger-init';
 import bcrypt from 'bcrypt';
 import { Request, Response, NextFunction } from 'express';
-import UserModel from '@models/userModel';
+import UserModel from './models/userModel';
 
 const app = express();
 const maxFileSize = 10 * 1024 * 1024;
