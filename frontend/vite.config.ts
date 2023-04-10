@@ -4,16 +4,12 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ mode }) => {
 
-  console.log(process.env.VITE_SUBFOLDER);
-  
-
-  if(process.env.VITE_SUBFOLDER.startsWith('/')) 
+  if (process.env.VITE_SUBFOLDER.startsWith('/'))
     process.env.VITE_SUBFOLDER = process.env.VITE_SUBFOLDER.substring(1);
-  
-
+    
   return ({
-      plugins: [react(), tsconfigPaths()],
-      logLevel: 'error',
-      base: mode === 'development' ? '/' : `/${process.env.VITE_SUBFOLDER}`,
+    plugins: [react(), tsconfigPaths()],
+    logLevel: 'error',
+    base: mode === 'development' ? '/' : `/${process.env.VITE_SUBFOLDER}`,
   });
 })
