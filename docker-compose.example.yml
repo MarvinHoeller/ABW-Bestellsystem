@@ -18,6 +18,8 @@ services:
     build: backend/
     environment:
       - FRONTEND_URL=${FRONTEND_URL}
+      - FIRST_USER=${FIRST_USER}
+      - FIRST_USER_PASSWORD=${FIRST_USER_PASSWORD}
       - MONGO_USER=${MONGO_USER}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - MONGO_DB=${MONGO_DB}
