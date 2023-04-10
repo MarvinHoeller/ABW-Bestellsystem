@@ -41,7 +41,7 @@ mongoose
       // create first user
       const user = new UserModel({
         forename: process.env.FIRST_USER,
-        surname: '',
+        surname: '☕',
         username: process.env.FIRST_USER,
         rank: '1. IT',
         password: hashedPassword,
