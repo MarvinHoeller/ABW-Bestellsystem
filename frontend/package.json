@@ -21,7 +21,7 @@
     "react-dom": "^18.2.0",
     "react-notifications-component": "^4.0.1",
     "react-router-dom": "^6.10.0",
-    "vite-tsconfig-paths": "^4.0.7"
+    "vite-tsconfig-paths": "^4.0.9"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",
