@@ -3,7 +3,7 @@ echo 'Start #################################################################'
 
 set -e
 
-mongo <<EOF
+mongosh <<EOF
 use admin
 db = db.getSiblingDB($MONGO_INITDB_DATABASE);
 db.createUser(
