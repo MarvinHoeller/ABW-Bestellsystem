@@ -2,6 +2,8 @@ FROM node as builder
 
 ARG VITE_SUBFOLDER
 
+ENV VITE_SUBFOLDER ${VITE_SUBFOLDER}
+
 WORKDIR /app
 
 COPY package*.json ./
