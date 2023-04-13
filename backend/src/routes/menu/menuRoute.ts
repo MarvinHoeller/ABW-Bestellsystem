@@ -62,10 +62,7 @@ router.put(
     }
 
     req.body.menuID ? null : req.body.menuID = new mongoose.Types.ObjectId();
-
-    console.log(req.body.menuID);
     
-
     MenuModel.updateOne({ _id: req.body.menuID, siteID: req.headers.siteid }, { $set: newitem }, { upsert: true }).then(() => {
       menuRouteLogger.info(`Menuitem ${req.body.name} upserted`);
       return res.jsonp({
