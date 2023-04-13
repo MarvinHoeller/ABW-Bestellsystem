@@ -1,15 +1,15 @@
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 
-export default defineConfig(({ mode }) => {
+/** @type {import('vite').UserConfig} */
+export default ({ command, mode }) => {
 
   if (process.env.VITE_SUBFOLDER && !process.env.VITE_SUBFOLDER.startsWith('/'))
     process.env.VITE_SUBFOLDER = '/' + process.env.VITE_SUBFOLDER;
 
-  return ({
+  return defineConfig({
     plugins: [react(), tsconfigPaths()],
-    logLevel: 'error',
-    base: mode === 'development' ? '/' : process.env.VITE_SUBFOLDER ?? '/',
+    base: mode === 'development' ? '/' : process.env.VITE_SUBFOLDER ?? '/'
   });
-})
+}
