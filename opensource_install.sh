@@ -12,7 +12,7 @@ RESET='\033[0m'
 GIT_NAME="ABW-Bestellsystem"
 ABWBS_GITURL="https://github.com/ABW-Bestellsystem/${GIT_NAME}.git"
 
-INSTALL_REPO="/etc/abwbs"
+INSTALL_REPO="/usr/bin/abwbs"
 
 # check if command exists
 command_exists() {
