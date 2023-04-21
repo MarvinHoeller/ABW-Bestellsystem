@@ -124,7 +124,7 @@ function DashboardPage() {
               onClick={() => {
                 setPopUpData((prev) => {
 
-                  let existingOrder = auth.user.order.find(
+                  let existingOrder = auth.user?.order.find(
                     (order) => {
                       return order._id === `${item._id}-normal`;
                     }
