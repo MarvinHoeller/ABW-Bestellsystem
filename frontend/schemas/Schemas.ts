@@ -22,15 +22,13 @@ export interface ResponseData {
 export interface MenuAdditions {
   name: string;
   price: number;
+  _id: string;
 }
 
 export interface NestedMenuAdditions {
   _id: string;
   menuAdditions: [
-    | {
-        name: string;
-        price: number;
-      }
+    | MenuAdditions
     | undefined
   ];
 }
@@ -148,10 +146,7 @@ export interface ISiteSettingsSchema {
 	autoDeleteTime: string;
 	autoDelete: boolean;
 	emails: Array<string>;
-	menuAdditions?: Array<{
-		name: string;
-		price: number;
-	}>;
+	menuAdditions?: Array<MenuAdditions>;
 	usingEmails: boolean;
 	emailhost: string;
 	emailport: number;
