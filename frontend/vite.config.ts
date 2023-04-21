@@ -3,7 +3,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import react from '@vitejs/plugin-react-swc'
 
 /** @type {import('vite').UserConfig} */
-export default ({ command, mode }) => {
+export default ({ mode }: {mode: string}) => {
 
   if (process.env.VITE_SUBFOLDER && !process.env.VITE_SUBFOLDER.startsWith('/'))
     process.env.VITE_SUBFOLDER = '/' + process.env.VITE_SUBFOLDER;
