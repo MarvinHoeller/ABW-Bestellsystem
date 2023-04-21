@@ -362,7 +362,7 @@ export function CustomPageSettings({
                     placeholder="Email Provider Port (z.B. 465)"
                     aria-label="Email Provider Port"
                     type="number"
-                    required={localSettings.usingEmails ? true : null}
+                    required={localSettings.usingEmails ? true : undefined}
                     name="emailport"
                     value={localSettings.emailport}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
