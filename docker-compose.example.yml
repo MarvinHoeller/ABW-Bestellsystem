@@ -3,10 +3,11 @@ services:
   frontend:
     container_name: abw-bs-fe
     restart: always
-    build: frontend/
-    environment:
-      - VITE_API_URL=${API_URL}
-      - VITE_SUBFOLDER=${SUBFOLDER}
+    build:
+      context: frontend/
+      args:
+        - API_URL=${API_URL}
+        - SUBFOLDER=${SUBFOLDER}
     ports:
       - '127.0.0.1:6969:80'
     networks:

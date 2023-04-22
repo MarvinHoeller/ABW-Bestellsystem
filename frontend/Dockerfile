@@ -1,15 +1,16 @@
 FROM node as builder
 
-ARG VITE_SUBFOLDER
+ARG SUBFOLDER
+ARG API_URL
 
-ENV VITE_SUBFOLDER ${VITE_SUBFOLDER}
+ENV VITE_SUBFOLDER=$SUBFOLDER
+ENV VITE_API_URL=$API_URL
 
 WORKDIR /app
 
 COPY package*.json ./
 
-# Forceinstall npm (since react 18.x)
-RUN npm install -f
+RUN npm install 
 
 COPY . .
 
