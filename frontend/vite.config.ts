@@ -11,7 +11,7 @@ export default ({ mode }: { mode: string }) => {
   if (process.env.VITE_SUBFOLDER && !process.env.VITE_SUBFOLDER.endsWith('/'))
     process.env.VITE_SUBFOLDER = process.env.VITE_SUBFOLDER + '/';
 
-  console.log('VITE_SUBFOLDER', process.env.VITE_SUBFOLDER);
+  console.log('VITE_SUBFOLDER', process.env);
   
 
   return defineConfig({
