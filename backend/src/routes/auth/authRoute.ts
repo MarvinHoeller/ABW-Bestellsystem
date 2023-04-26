@@ -10,7 +10,7 @@ import TokenModel, { ITokenSchema } from '../../models/tokenModel';
 import config from '../../../config';
 import { AUTH } from './authToken';
 import PERMS from './checkPerms';
-import { generateNewEditorKey } from '../../tools/tools';
+import { generateNewEditorKey, permissionIDTranslator } from '../../tools/tools';
 import { authRouteLogger } from '../../../logger-init';
 
 const router = Router();
@@ -190,7 +190,7 @@ router.post(
           forename: user.forename,
           surname: user.surname,
           username: user.username,
-          permissionID: user.permissionID,
+          permissionID: permissionIDTranslator(user.permissionID, config),
           rank: user.rank,
           order: user.order,
         },
