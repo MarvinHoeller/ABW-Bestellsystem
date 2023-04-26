@@ -14,7 +14,7 @@ import PrivacyPage from './Pages/privacyInfoPage/privacyInfoPage';
 import EditorDashboardPage from './Pages/editor/dashboardPage/editorDashboardPage';
 import CustomPage from './Pages/editor/customPage/customPage';
 
-function App() {
+function App() {  
   return (
     <AuthProvider>
       <ReactNotifications />

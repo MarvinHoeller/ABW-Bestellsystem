@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface ImenuSchema {
+export interface IMenuSchema {
 	_id: string;
 	index: number;
 	siteID: mongoose.Types.ObjectId;
@@ -11,7 +11,7 @@ export interface ImenuSchema {
 	length: number;
 }
 
-const menuSchema = new mongoose.Schema<ImenuSchema>({
+const menuSchema = new mongoose.Schema<IMenuSchema>({
 	siteID: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,

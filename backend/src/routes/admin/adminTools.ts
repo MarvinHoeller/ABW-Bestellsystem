@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import hbs from "handlebars";
 import puppeteer from "puppeteer";
 
-import MenuModel, { ImenuSchema } from "../../models/menuModel";
+import MenuModel, { IMenuSchema } from "../../models/menuModel";
 import PDFModel, { IpdfSchema } from "../../models/pdfModel";
 import SiteSettingsModel, { MenuAdditions } from "../../models/siteSettingsModel";
 import UserModel, { IorderSchema } from "../../models/userModel";
@@ -88,7 +88,7 @@ async function getAllOrders(rank: string, siteID?: string): Promise<any> {
 	const menuFilter = siteID ? { siteID: siteID } : {};
 	const additionFilter = siteID ? { _id: siteID } : {};
 
-	const menuitems: Array<ImenuSchema> = await MenuModel.find(menuFilter).sort({ index: 1});
+	const menuitems: Array<IMenuSchema> = await MenuModel.find(menuFilter).sort({ index: 1});
 
 	let menuAdditions: (MenuAdditions | undefined)[] = (
 		await SiteSettingsModel.find(additionFilter).select("menuAdditions")
@@ -96,7 +96,7 @@ async function getAllOrders(rank: string, siteID?: string): Promise<any> {
 		.map((item) => item.menuAdditions)
 		.flat(1);
 
-	menuitems.forEach((menuitem: ImenuSchema) => {
+	menuitems.forEach((menuitem: IMenuSchema) => {
 		neworderlist.push({
 			price: menuitem.price,
 			name: menuitem.name,

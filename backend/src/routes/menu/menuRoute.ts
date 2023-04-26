@@ -3,7 +3,7 @@ import { UploadedFile } from 'express-fileupload';
 import { body } from 'express-validator';
 import mongoose, { CallbackError } from 'mongoose';
 import { menuRouteLogger } from '../../../logger-init';
-import MenuModel, { ImenuSchema } from '../../models/menuModel';
+import MenuModel, { IMenuSchema } from '../../models/menuModel';
 import SiteSettingsModel from '../../models/siteSettingsModel';
 import { AUTH } from '../auth/authToken';
 import PERMS from '../auth/checkPerms';
@@ -14,7 +14,7 @@ const router = Router();
 router.get('/', AUTH, PERMS.USER, async (req: Request, res: Response) => {
   const siteID = req.headers.siteid ?? '';
 
-  MenuModel.find(siteID.length > 0 ? { siteID: siteID } : {}).sort({ index: 1 }).then((data: ImenuSchema | ImenuSchema[]) => {
+  MenuModel.find(siteID.length > 0 ? { siteID: siteID } : {}).sort({ index: 1 }).then((data: IMenuSchema | IMenuSchema[]) => {
     menuRouteLogger.debug('Sending Menu with status 200');
     return res.status(200).jsonp({ access: true, res: data });
   }).catch((err: Error) => {

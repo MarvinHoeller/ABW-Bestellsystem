@@ -8,6 +8,7 @@ import UserSettingsModel from '../../models/userSettingsModel';
 import mongoose, { Types } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { editorRouteLogger } from '../../../logger-init';
+import { saveAllOrdersForToday } from '../statistic/statisticRoute';
 interface IJob {
   _id: mongoose.Types.ObjectId;
   task?: schedule.Job;
@@ -101,6 +102,18 @@ class Job {
     curr_job.task = schedule.scheduleJob(
       rule,
       async function (currentTask: IJob) {
+        editorRouteLogger.info(
+          '------------------------------- Saving Statistics -------------------------------'
+        )
+
+        await saveAllOrdersForToday().catch((err) => {
+          editorRouteLogger.error('Failed to save Statistics for today!', { stack: err });
+        });
+
+        editorRouteLogger.info(
+          '------------------------------- Statistics saved -------------------------------'
+        )
+
         editorRouteLogger.info(
           '------------------------------- Delete-Job started -------------------------------'
         );
@@ -265,6 +278,8 @@ class Job {
         editorRouteLogger.info(
           '------------------------------- Delete-Job ended -------------------------------'
         );
+
+
       }.bind(null, curr_job)
     );
     curr_job.isRunning = true;

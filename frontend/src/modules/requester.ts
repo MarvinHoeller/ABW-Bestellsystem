@@ -147,161 +147,17 @@ interface UserResponses {
     then?: (data: ResponseAxiosSchema) => void
   ) => Promise<void>;
 }
-
-async function __GET_RequestHandler(
-  path: string,
-  dest: string,
-  auth: AuthContextType,
-  siteID?: string,
-  navigate?: VoidFunction
-): Promise<ResponseAxiosSchema | undefined> {
-  const { data, error }: { data: ResponseAxiosSchema; error: any | undefined } =
-    await axios
-      .get(`${config.url}/${path}/${dest}`, {
-        headers: {
-          accessToken: auth.accessToken,
-          siteID: siteID ?? '',
-        },
-      })
-      .then((res: ResponseData) => {
-        return { data: res.data, error: res.data.error };
-      })
-      .catch((err) => {
-        const responseData = (err.response as ResponseData).data;
-
-        if (responseData.error !== 419) {
-          infoPopup.error(responseData.res, 'Fehler!');
-        }
-
-        if (!responseData.access && navigate) auth.forceSignout(navigate);
-
-        return { data: responseData, error: responseData.error };
-      });
-
-  if (error) return;
-
-  return {
-    access: data.access,
-    res: data.res,
-  };
-}
-
-async function __POST_RequestHandler(
-  path: string,
-  dest: string,
-  body: Object,
-  auth: AuthContextType,
-  siteID?: string,
-  navigate?: VoidFunction
-): Promise<ResponseAxiosSchema | undefined> {
-  const { data, error }: { data: ResponseAxiosSchema; error: any | undefined } =
-    await axios
-      .post(`${config.url}/${path}/${dest}`, body, {
-        headers: {
-          accessToken: auth.accessToken,
-          siteID: siteID ?? '',
-        },
-      })
-      .then((res: ResponseData) => {
-        return { data: res.data, error: res.data.error };
-      })
-      .catch((err) => {
-        const responseData = (err.response as ResponseData).data;
-
-        if (responseData.error !== 419) {
-          infoPopup.error(responseData.res, 'Fehler!');
-        }
-
-        if (!responseData.access && navigate) auth.forceSignout(navigate);
-
-        return { data: responseData, error: responseData.error };
-      });
-
-  if (error) return;
-
-  return {
-    access: data.access,
-    res: data.res,
-  };
-}
-
-async function __PUT_RequestHandler(
-  path: string,
-  dest: string,
-  body: Object,
-  auth: AuthContextType,
-  siteID?: string,
-  navigate?: VoidFunction
-): Promise<ResponseAxiosSchema | undefined> {
-  const { data, error }: { data: ResponseAxiosSchema; error: any | undefined } =
-    await axios
-      .put(`${config.url}/${path}/${dest}`, body, {
-        headers: {
-          accessToken: auth.accessToken,
-          siteID: siteID ?? '',
-        },
-      })
-      .then((res: ResponseData) => {
-        return { data: res.data, error: res.data.error };
-      })
-      .catch((err) => {
-        const responseData = (err.response as ResponseData).data;
-
-        if (responseData.error !== 419) {
-          infoPopup.error(responseData.res, 'Fehler!');
-        }
-
-        if (!responseData.access && navigate) auth.forceSignout(navigate);
-
-        return { data: responseData, error: responseData.error };
-      });
-
-  if (error) return;
-
-  return {
-    access: data.access,
-    res: data.res,
-  };
-}
-
-async function __DELETE_RequestHandler(
-  path: string,
-  dest: string,
-  body: Object,
-  auth: AuthContextType,
-  siteID?: string,
-  navigate?: VoidFunction
-): Promise<ResponseAxiosSchema | undefined> {
-  const { data, error }: { data: ResponseAxiosSchema; error: any | undefined } =
-    await axios
-      .delete(`${config.url}/${path}/${dest}`, {
-        headers: {
-          accessToken: auth.accessToken,
-          siteID: siteID ?? '',
-        },
-        data: body,
-      })
-      .then((res: ResponseData) => {
-        return { data: res.data, error: res.data.error };
-      })
-      .catch((err) => {
-        const responseData = (err.response as ResponseData).data;
-
-        if (responseData.error !== 419) {
-          infoPopup.error(responseData.res, 'Fehler!');
-        }
-
-        if (!responseData.access && navigate) auth.forceSignout(navigate);
-
-        return { data: responseData, error: responseData.error };
-      });
-
-  if (error) return;
-
-  return {
-    access: data.access,
-    res: data.res,
-  };
+interface StatisticResponses {
+  get: (
+    body: Object,
+    dest: 'pricecount' | 'ordercount',
+    then?: (data: ResponseAxiosSchema) => void
+  ) => Promise<void>;
+  post: (
+    body: Object,
+    dest: 'save',
+    then?: (data: ResponseAxiosSchema) => void
+  ) => Promise<void>;
 }
 
 async function Requester(
@@ -546,6 +402,22 @@ function MenuRequest(
   return RequestHandler('menu', auth, navigate, siteID) as MenuResponses;
 }
 
+/**
+ * RequestHandler for MenuRoute
+ *
+ * @param auth authentication for API-Requests
+ * @param navigate destination for errors
+ * @param siteID siteID for API-Requests
+ * @returns get, post
+ */
+function StatisticRequest(
+  auth: AuthContextType,
+  navigate?: VoidFunction,
+  siteID?: string
+) {
+  return RequestHandler('statistic', auth, navigate, siteID) as StatisticResponses;
+}
+
 export {
   AdminRequest,
   UserRequest,
@@ -553,4 +425,5 @@ export {
   AuthRequest,
   EditorRequest,
   CustomPageRequest,
+  StatisticRequest
 };

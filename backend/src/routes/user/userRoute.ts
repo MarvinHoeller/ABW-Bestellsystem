@@ -6,7 +6,7 @@ import mongoose, { CallbackError, MongooseError } from 'mongoose';
 
 import config from '../../../config';
 import { userRouteLogger } from '../../../logger-init';
-import MenuModel, { ImenuSchema } from '../../models/menuModel';
+import MenuModel, { IMenuSchema } from '../../models/menuModel';
 import UserModel, {
   IorderSchema,
   IsauceSchema, IUserSchema
@@ -496,7 +496,7 @@ router.post(
       .notEmpty()
       .custom((value) => {
         MenuModel.find(
-          { _id: value }).then((data: Array<ImenuSchema>) => {
+          { _id: value }).then((data: Array<IMenuSchema>) => {
             if (data.length === 0) {
               throw new Error('Menu item not found');
             }

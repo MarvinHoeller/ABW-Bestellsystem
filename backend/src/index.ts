@@ -106,6 +106,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const requesturl = req.originalUrl.split('/');
 
   if (requesturl[1] === 'customPage') requesturl[1] = 'CSTMPG';
+  if (requesturl[1] === 'statistic') requesturl[1] = 'STATS';
 
   logger.http(`getting ${req.method} request for /${requesturl[2]}`, {
     service: requesturl[1].toUpperCase(),

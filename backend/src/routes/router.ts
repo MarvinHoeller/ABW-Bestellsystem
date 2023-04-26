@@ -5,6 +5,7 @@ import userRoute from "./user/userRoute";
 import adminRoute from "./admin/adminRoute";
 import editorRoute from "./editor/editorRoute";
 import customPageRoute from "./customPage/customPageRoute";
+import statisticRoute from "./statistic/statisticRoute";
 import { logger } from "../../logger-init";
 
 const app = express()
@@ -27,6 +28,9 @@ logger.debug("subroute 'editor' registered!")
 
 app.use("/customPage/", customPageRoute)
 logger.debug("subroute 'customPage' registered!")
+
+app.use("/statistic/", statisticRoute)
+logger.debug("subroute 'statistic' registered!")
 
 app.get("/", (req: Request, res: Response) => {
       res.status(418).send("I'm a teapot! cheers☕")
