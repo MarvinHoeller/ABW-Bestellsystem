@@ -8,12 +8,6 @@ export default ({ mode }: { mode: string }) => {
   if (process.env.VITE_SUBFOLDER && !process.env.VITE_SUBFOLDER.startsWith('/'))
     process.env.VITE_SUBFOLDER = '/' + process.env.VITE_SUBFOLDER;
 
-  // if (process.env.VITE_SUBFOLDER && !process.env.VITE_SUBFOLDER.endsWith('/'))
-  //   process.env.VITE_SUBFOLDER = process.env.VITE_SUBFOLDER + '/';
-
-  console.log('VITE_SUBFOLDER', process.env);
-  
-
   return defineConfig({
     plugins: [react(), tsconfigPaths()],
     base: mode === 'development' ? '/' : process.env.VITE_SUBFOLDER ?? '/'
