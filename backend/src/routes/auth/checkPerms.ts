@@ -77,10 +77,13 @@ const vaildateRequests = async (
     const errorstack = errors
       .array()
       .map((value) => {
-        return `${value.msg} : ${value.param} ('${req[value.location ?? 'body'][value.param]
-          }')`;
-      })
-      .join(' | ');
+
+        if (value.type === "field")
+          return `${value.msg} : ${value.path} ('${req[value.location ?? 'body'][value.path]}')`;
+
+        return `${value.msg}`;
+
+      }).join(' | ');
 
     logger.warn(`Pre-Check Failed: ${errorstack}`, { service: 'CHECK' });
     return res.status(400).jsonp({
