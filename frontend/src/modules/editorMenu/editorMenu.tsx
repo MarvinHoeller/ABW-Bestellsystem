@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import {
-  Container,
   Dropdown
 } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../authentication/authHandler';
 import { AddSite } from './SitePopUp/sitePopUp';
