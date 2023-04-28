@@ -56,6 +56,9 @@ function Statistics() {
    const [ordercount, setOrderCount] = useState<IStatisticsOrderCount[]>()
    const [pricecount, setPriceCount] = useState<IStatisticsPriceCount[]>()
 
+   // setNames
+   const [names, setNames] = useState<string[]>([])
+
    // 4 statistics for the dashboard in a grid layout
    // 1. Gesamtausgaben pro Jahr
    // 2. Wie viel wurde bestellt? 
@@ -65,6 +68,19 @@ function Statistics() {
    useEffect(() => {
       getData()
    }, [])
+
+   useEffect(() => {
+
+      if (ordercount === undefined) return
+
+      const lengths = ordercount.map(a => a.names.length);
+      const max = Math.max(...lengths);
+
+      // find ordercount with the most names
+      setNames(ordercount.find(a => a.names.length === max)?.names as string[])
+
+      
+   }, [ordercount])
 
    const getData = () => {
       // fetch data from backend
@@ -81,10 +97,6 @@ function Statistics() {
 
          setPriceCount(data.res as IStatistics[])
       })
-   }
-
-   const getLegend = () => {
-
    }
 
    if (ordercount === undefined || pricecount === undefined) return (<></>)
@@ -112,7 +124,7 @@ function Statistics() {
                            }
                         }}
                         data={{
-                           labels: ordercount[0] ? [...(ordercount[0].names.map((_, index) => index + 1))] : [],
+                           labels: ordercount[0] ? [...(names.map((_, index) => index + 1))] : [],
                            datasets: ordercount.map((stat) => {
                               return {
                                  label: stat.rank,
@@ -129,7 +141,7 @@ function Statistics() {
                            <h5>Legende</h5>
                            {
                               ordercount[0].names.map((item, index) => {
-                                 return <div>
+                                 return <div key={"o"+index}>
                                     {index + 1}: {item}
                                  </div>
                               })
@@ -142,7 +154,7 @@ function Statistics() {
                                  const priceMax = item.counts.reduce((acc, curr) => acc + curr, 0)
 
 
-                                 return <div>
+                                 return <div key={"p_sum_"+item.rank}>
                                     {item.rank}: {priceMax} Bestellungen
                                  </div>
                               })
@@ -171,7 +183,7 @@ function Statistics() {
                            }
                         }}
                         data={{
-                           labels: pricecount[0] ? [...(pricecount[0].names.map((_, index) => index + 1))] : [],
+                           labels: pricecount[0] ? [...(names.map((_, index) => index + 1))] : [],
                            datasets: pricecount.map((stat) => {
                               return {
                                  label: stat.rank,
@@ -188,7 +200,7 @@ function Statistics() {
                            <h5>Legende</h5>
                            {
                               pricecount[0].names.map((item, index) => {
-                                 return <div>
+                                 return <div key={"p"+index}>
                                     {index + 1}: {item}
                                  </div>
                               })
@@ -201,7 +213,7 @@ function Statistics() {
                                  const priceMax = item.prices.reduce((acc, curr) => acc + curr, 0)
 
 
-                                 return <div>
+                                 return <div key={"p_sum_"+item.rank}>
                                     {item.rank}: {Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(priceMax)}
                                  </div>
                               })
