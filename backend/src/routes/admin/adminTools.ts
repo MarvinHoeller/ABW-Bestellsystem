@@ -41,7 +41,7 @@ function formatToCurrent(number: number) {
 
 async function generatePDF(userrank: string, siteID?: string) {
 	const browser = await puppeteer.launch({
-		headless: true,
+		headless: "new",
 		args: [
 			"--no-sandbox", 
 			"--disable-setuid-sandbox",
