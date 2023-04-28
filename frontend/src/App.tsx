@@ -13,6 +13,7 @@ import { Auth, AuthProvider } from './authentication/authHandler';
 import PrivacyPage from './Pages/privacyInfoPage/privacyInfoPage';
 import EditorDashboardPage from './Pages/editor/dashboardPage/editorDashboardPage';
 import CustomPage from './Pages/editor/customPage/customPage';
+import Statistics from './Pages/editor/statisticsPage/Statistics';
 
 function App() {  
   return (
@@ -74,6 +75,14 @@ function App() {
           element={
             <Auth>
               <EditorDashboardPage />
+            </Auth>
+          }
+        />
+        <Route
+          path="editor/statistics"
+          element={
+            <Auth>
+              <Statistics />
             </Auth>
           }
         />

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Button,
   Dropdown
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -15,6 +16,11 @@ function Menu() {
   return (
     <>
       <AddSite show={show} onHide={() => setShow(false)} />
+      <Link style={{ color: 'white' }} to="/editor/statistics">
+        <Button className='me-3' style={{ width: "150px" }} variant='primary'>
+          Statistiken
+        </Button>
+      </Link>
       <Dropdown className='d-inline-block'>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
           Bestellseiten ({auth.sites.length})
