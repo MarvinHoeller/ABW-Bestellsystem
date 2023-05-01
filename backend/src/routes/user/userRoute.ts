@@ -50,13 +50,13 @@ router.get('/', AUTH, PERMS.ADMIN, async (req: Request, res: Response) => {
       res.status(200).jsonp({ access: true, res: data });
     }).catch((err: MongooseError) => {
 
-        userRouteLogger.error('Error while finding users', { stack: err });
-        return res.status(400).jsonp({
-          access: false,
-          error: err,
-          res: 'Error while finding users',
-        });
-      }
+      userRouteLogger.error('Error while finding users', { stack: err });
+      return res.status(400).jsonp({
+        access: false,
+        error: err,
+        res: 'Error while finding users',
+      });
+    }
     )
 });
 
@@ -78,14 +78,14 @@ router.get('/data', [AUTH, PERMS.USER], async (req: Request, res: Response) => {
 
     userRouteLogger.debug('sending userdata to client with status 200');
     res.status(200).jsonp({ access: true, res: data });
-  }).catch((err: MongooseError, ) => {
-      userRouteLogger.error('Error while finding users', { stack: err });
-      return res.status(400).jsonp({
-        access: false,
-        error: err,
-        res: 'Error while finding users',
-      });
-    }
+  }).catch((err: MongooseError,) => {
+    userRouteLogger.error('Error while finding users', { stack: err });
+    return res.status(400).jsonp({
+      access: false,
+      error: err,
+      res: 'Error while finding users',
+    });
+  }
   );
 });
 
@@ -520,30 +520,19 @@ router.post(
 
     const siteID = new mongoose.Types.ObjectId(req.headers.siteid as string);
 
-    //Check if Item-ID exist in Menu
-    const neworder: IorderSchema = {
-      _id: `${order._id}-${order.bread}`,
-      siteID: siteID,
-      name: `${order.name}`,
-      sauce: sauce,
-      bread: order.bread,
-      quantity: Number(order.quantity),
-      //Removes empty strings
-      //TODO: check if comment is in DB
-      comment: order.comment.filter((comment) => comment),
-    };
 
     UserModel.updateOne(
       {
         _id: req.body._id,
       },
       {
-        $set: { 'order.$[elem]': neworder },
+        $inc: { 'order.$[elem].quantity': Number(order.quantity) },
       },
       {
         arrayFilters: [
           {
             'elem._id': `${order._id}-${order.bread}`,
+            'elem.bread': order.bread,
             'elem.siteID': siteID,
           },
         ],
@@ -563,6 +552,18 @@ router.post(
 
           //Wenn kein Element geupdated werden kann, dann erstelle ein neues
           if (mongores.modifiedCount == 0) {
+
+            //Check if Item-ID exist in Menu
+            const neworder: IorderSchema = {
+              _id: `${order._id}-${order.bread}`,
+              siteID: siteID,
+              name: `${order.name}`,
+              sauce: sauce,
+              bread: order.bread,
+              quantity: Number(order.quantity),
+              comment: order.comment.filter((comment) => comment),
+            };
+
             UserModel.updateOne(
               {
                 _id: req.body._id,
@@ -571,10 +572,6 @@ router.post(
                     'order._id': {
                       $nin: [`${order._id}-${order.bread}`],
                     },
-                    // removed siteID : only one order possible
-                    // 'order.siteID': {
-                    //   $nin: [siteID],
-                    // },
                   },
                 ],
               },
@@ -606,7 +603,7 @@ router.post(
 
             res.status(200).jsonp({
               access: true,
-              res: `${neworder.name} updated`,
+              res: `${order.name} updated`,
             });
           }
         })
