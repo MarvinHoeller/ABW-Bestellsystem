@@ -85,22 +85,28 @@ function Statistics() {
    const getData = () => {
       // fetch data from backend
       StatisticRequest(auth, () => { }).get({}, 'ordercount', (data) => {
-         console.log(data);
          if (data === undefined) return
 
          setOrderCount(data.res as IStatisticsOrderCount[])
       })
 
       StatisticRequest(auth, () => { }).get({}, 'pricecount', (data) => {
-         console.log(data);
          if (data === undefined) return
 
          setPriceCount(data.res as IStatistics[])
       })
    }
 
-   if (ordercount === undefined || pricecount === undefined) return (<></>)
-
+   if (ordercount === undefined || pricecount === undefined || ordercount.length === 0 || pricecount.length === 0) 
+      return <>
+         <Menu />
+         <Container className="content dashboard">
+            <h3>
+               Aktuell sind keine Statistiken verfügbar.
+            </h3>
+         </Container>
+      </>
+   
    return (
       <>
          <Menu />
