@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "devStart": "set NODE_ENV=development&& tsnd --respawn .",
+    "devStart": "$env:NODE_ENV=development&& tsnd --respawn .",
     "build": "tsc",
     "start": "node src/index.js"
   },
