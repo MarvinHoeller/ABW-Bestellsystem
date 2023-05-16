@@ -104,8 +104,6 @@ router.post(
     check('setting.emails').optional().custom((emails: string[]) => {
       const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-      console.log(emails);
-
       // If no emails are provided, return true
       if (!emails) return true;
       if (emails.length === 0) return true;

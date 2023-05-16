@@ -8,6 +8,7 @@ import {
   Form,
   FormControl,
   FormGroup,
+  FormText,
   InputGroup,
   Row,
   Table,
@@ -63,7 +64,7 @@ function ProfilePage() {
       return InfoPopUp.warning('Passwörter sind identisch');
     }
 
-    UserRequest(auth, () => redirect('/')).put(
+    UserRequest(auth).put(
       { password: formData.get('password') },
       'pwreset',
       (data) => {
@@ -183,7 +184,7 @@ function ProfilePage() {
                 <td>{auth.user.surname}</td>
                 <td>{auth.user.username}</td>
                 <td>{auth.user.rank}</td>
-                <td>x{auth.user.runnercount ?? 0}</td>
+                <td>{auth.user.runnercount ?? 0}x</td>
               </tr>
             </tbody>
           </Table>
@@ -210,6 +211,14 @@ function ProfilePage() {
                     Reset
                   </Button>
                 </InputGroup>
+                <FormText
+                  className="text-muted"
+                  style={{ fontSize: '0.8rem' }}
+                >
+                  Das Passwort muss mindestens 8 Zeichen lang sein und
+                  mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine
+                  Zahl und ein Sonderzeichen enthalten.
+                </FormText>
               </FormGroup>
             </Row>
           </Form>

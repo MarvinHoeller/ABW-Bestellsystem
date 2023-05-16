@@ -21,7 +21,6 @@ import infoPopup from 'modules/infoPopup';
 import Menu from '../../../modules/menu/Menu';
 import Footer from '../../../modules/footer/Footer';
 import EditorMenu from '../../../modules/editorMenu/editorMenu';
-import Statistics from './dashboardModules/DashboardStatistics';
 
 interface ImageBuffer {
   data: Buffer;
@@ -213,8 +212,6 @@ function DashboardPage() {
         </Row>
         <h3>Allgemeine Einstellungen</h3>
         <DashboardSettings getUsers={() => getUsers()} />
-        <h3>Statistiken</h3>
-        <Statistics />
         <h3>User</h3>
         <Accordion>
           {users.length === 0 ? (

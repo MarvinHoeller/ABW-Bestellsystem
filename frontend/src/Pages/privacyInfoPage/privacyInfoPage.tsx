@@ -13,19 +13,22 @@ const PrivacyPage = (props: any) => {
           <h4>Vor- & Nachname</h4>
           <p>
             Wir verwenden Ihren <b>Vor- und Nachname</b>, um daraus
-            den Nutzernamen (vorname.nachname) zu generieren.
+            den Nutzernamen (vorname.nachname) zu generieren. Des Weiteren wird der Name
+            bei Läuferauswahl für 2 Tage gespeichert.
             <br />
             Bei Admins wird der <b>Vor- und Nachname</b> zusätzlich für die
             Emailsignatur verwendet.
           </p>
-          <br />
           <h4>Passwort</h4>
           <p>
             Wir verwenden Ihr <b>Passwort</b>, um Sie beim Login zu
-            authentifizieren. Verschlüsselt wird das ganze mit der Hashfunktion{' '}
-            <a href="https://de.wikipedia.org/wiki/Bcrypt">Bcrypt</a>. <br />
+            authentifizieren.
           </p>
-          <br />
+          <h4>Läuferdaten</h4>
+          <p>
+            Wir speichern die Anzahl, wie oft Sie Läufer waren, um Sie bei einer
+            zufälligen Auswahl gegenüber anderen Nutzern zu weniger oder mehr zu gewichten.
+          </p>
           <h4>Ausbildungsjahr</h4>
           <p>
             Das <b>Ausbildungsjahr</b> wird für die Zuordung von
@@ -34,7 +37,6 @@ const PrivacyPage = (props: any) => {
             Bei Admins wird das <b>Ausbildungsjahr</b> zusätzlich für die
             Emailsignatur verwendet.
           </p>
-          <br />
           <h4>Bestellung</h4>
           <p>
             Wir verwenden Ihre <b>Bestellung</b>, um Sie in der Bestellliste
@@ -42,12 +44,10 @@ const PrivacyPage = (props: any) => {
             (mit außnahme des Bestellsenders) an die Emailempfansstelle
             geschickt! <br />
             Admins können Bestellungen individuell von Nutzern einsehen, aber nicht verändern. <br />
-            In späteren Versionen wird die Bestellung auch langzeitig anonym für
-            Statistiken und besseren Brötchenvorschlägen verwendet.
+            Die Bestellungen werden langzeitig, anonym & nur auf dem Hostserver für
+            Statistiken und bessere Bestellvorschläge verwendet.
           </p>
-          <br />
           <h2 className="mt-4">PDFDaten</h2>
-
           <h4>Email</h4>
           <p>
             Wir speichern die <b>Email</b>, um sie später als Senderemail für die
