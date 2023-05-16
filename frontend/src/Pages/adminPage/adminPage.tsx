@@ -238,7 +238,7 @@ function AdminPage() {
       
       infoPopup.success(
         `Der neue Runner ist ${data.res.runner}`,
-        'Runner gefunden!'
+        "Runner gefunden!"
       );
     });
   };
