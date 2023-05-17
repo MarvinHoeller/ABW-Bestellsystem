@@ -81,7 +81,7 @@ export function DashboardSettings({
       end: formData.get('end') as string,
       title: formData.get('title') as string,
       text: formData.get('text') as string,
-      rank:
+      notifyrank:
         (formData.get('rank') as string) === 'Alle'
           ? undefined
           : formData.get('rank'),

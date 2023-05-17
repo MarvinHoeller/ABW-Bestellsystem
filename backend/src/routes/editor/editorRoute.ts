@@ -51,7 +51,7 @@ router.post(
     check('end').isDate(),
     check('text').isString(),
     check('title').isString(),
-    check('rank')
+    check('notifyrank')
       .optional()
       .isIn([
         '1. IT',
@@ -78,7 +78,7 @@ router.post(
       end: req.body.end,
       text: req.body.text,
       title: req.body.title,
-      rank: req.body.rank,
+      rank: req.body.notifyrank,
     }).save().then(() => {
       editorRouteLogger.info(`saved notification ${req.body.title}`);
       res.status(200).jsonp({
