@@ -78,7 +78,7 @@ function Register(props: RegisterProps) {
               <FormControl
                 type="password"
                 name="password"
-                placeholder="Enter Password"
+                placeholder="Passwort"
               />
             </Col>
             <Col>
@@ -86,7 +86,7 @@ function Register(props: RegisterProps) {
               <FormControl
                 type="password"
                 name="passwordConfirm"
-                placeholder="Repeat Password"
+                placeholder="Passwort wiederholen"
               />
             </Col>
           </Row>
